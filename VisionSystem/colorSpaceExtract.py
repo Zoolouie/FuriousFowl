@@ -80,14 +80,13 @@ while(1):
         print "green coordinates: %s , %s" % (greenx, greeny)
         print "red coordinates %s , %s" % (redx, redy)
         count = 0
-
+        
     #cv2.imshow('frame',frame)
     #cv2.imshow('mask',mask)
+    #cv2.imshow('blueres',blueres)
+    #cv2.imshow('greenres',greenres)
+    #cv2.imshow('redres',redres)
 
-
-    cv2.imshow('blueres',blueres)
-    cv2.imshow('greenres',greenres)
-    cv2.imshow('redres',redres)
     k = cv2.waitKey(5) & 0xFF
     if k == 27:
         break
