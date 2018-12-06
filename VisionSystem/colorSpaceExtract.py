@@ -38,32 +38,35 @@ while(1):
     resImage = [640, 480]
     resScreen = [1080, 400]
     bluepointsinframe = np.floor((resScreen[0] / resImage[0]) * blueavg[0]), np.floor((resScreen[1] / resImage[1]))
-
-
-    greenmask = cv2.inRange(hsv, lower_green, upper_green)
-    greenres = cv2.bitwise_and(frame,frame, mask= greenmask)
-
-    greenpoints = cv2.findNonZero(greenmask)
-    greenavg = np.mean(greenpoints, axis=0) # Averaged points to sole coordinate
-    resImage = [640, 480]
-    resScreen = [1080, 400]
-    greenpointsinframe = np.floor((resScreen[0] / resImage[0]) * greenavg[0]), (np.floor((resScreen[1] / resImage[1])))
-
-
-    redmask = cv2.inRange(hsv, lower_red, upper_red)
-    redres = cv2.bitwise_and(frame,frame, mask= redmask)
-
-    redpoints = cv2.findNonZero(redmask)
-    redavg = np.mean(redpoints, axis=0) # Averaged points to sole coordinate
-    resImage = [640, 480]
-    resScreen = [1080, 400]
-    redpointsinframe = np.floor((resScreen[0] / resImage[0]) * redavg[0]), np.floor((resScreen[1] / resImage[1]))
-
-
     bluex = bluepointsinframe[0][0]
     bluex = float(bluex)
     bluey = bluepointsinframe[0][1]
     bluey = float(bluey)
+
+
+   # greenmask = cv2.inRange(hsv, lower_green, upper_green)
+   # greenres = cv2.bitwise_and(frame,frame, mask= greenmask)
+#
+   # greenpoints = cv2.findNonZero(greenmask)
+   # greenavg = np.mean(greenpoints, axis=0) # Averaged points to sole coordinate
+   # resImage = [640, 480]
+   # resScreen = [1080, 400]
+   # greenpointsinframe = np.floor((resScreen[0] / resImage[0]) * greenavg[0]), (np.floor((resScreen[1] / resImage[1])))
+#
+#
+   # redmask = cv2.inRange(hsv, lower_red, upper_red)
+   # redres = cv2.bitwise_and(frame,frame, mask= redmask)
+#
+   # redpoints = cv2.findNonZero(redmask)
+   # redavg = np.mean(redpoints, axis=0) # Averaged points to sole coordinate
+   # resImage = [640, 480]
+   # resScreen = [1080, 400]
+   # redpointsinframe = np.floor((resScreen[0] / resImage[0]) * redavg[0]), np.floor((resScreen[1] / resImage[1]))
+
+    
+    
+
+    '''
     greenx = greenpointsinframe[0][0]
     greenx = float(greenx)
     greeny = greenpointsinframe[0][1]
@@ -72,15 +75,16 @@ while(1):
     redx = float(redx)
     redy = redpointsinframe[0][1]
     redy = float(redy)
+    '''
 
 
     #shitty way to have intermittant printing
     if (count == cLimit):
         print "blue coordinates: %s , %s" % (bluex, bluey)
-        print "green coordinates: %s , %s" % (greenx, greeny)
-        print "red coordinates %s , %s" % (redx, redy)
+       # print "green coordinates: %s , %s" % (greenx, greeny)
+       # print "red coordinates %s , %s" % (redx, redy)
         count = 0
-        
+
     #cv2.imshow('frame',frame)
     #cv2.imshow('mask',mask)
     #cv2.imshow('blueres',blueres)
