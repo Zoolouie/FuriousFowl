@@ -4,7 +4,7 @@
 
 import cv2, numpy as np
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(1)
 count = 1
 cLimit = 50 # Amount of iterations before printing coordinates, smaller number = faster refresh
 
@@ -12,6 +12,10 @@ print("Ctrl + c to exit program")
 while(1):
     # Take each frame
     _, frame = cap.read()
+
+    blueavg = None
+    greenavg = None
+    redavg = None
 
     # Convert BGR to HSV
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
@@ -34,15 +38,40 @@ while(1):
 
     # TODO: Return and X and Y coordinate for all unique color blobs
     bluepoints = cv2.findNonZero(bluemask)
-    blueavg = np.mean(bluepoints, axis=0) # Averaged points to sole coordinate
-    resImage = [640, 480]
-    resScreen = [1080, 400]
-    bluepointsinframe = np.floor((resScreen[0] / resImage[0]) * blueavg[0]), np.floor((resScreen[1] / resImage[1]))
-    bluex = bluepointsinframe[0][0]
-    bluex = float(bluex)
-    bluey = bluepointsinframe[0][1]
-    bluey = float(bluey)
+    if bluepoints is not None:
+        blueavg = np.mean(bluepoints, axis=0) # Averaged points to sole coordinate
+        resImage = [600, 600]
+        resScreen = [600, 600]
+        #bluepointsinframe = np.floor((resScreen[0] / resImage[0]) * blueavg[0]), np.floor((resScreen[1] / resImage[1]))
+        #bluex = bluepointsinframe[0][0]
+        #bluex = float(bluex)
+        #bluey = bluepointsinframe[0][1]
+        #bluey = float(bluey)
 
+    #green
+    greenmask = cv2.inRange(hsv, lower_green, upper_green)
+
+    # Bitwise-AND mask and original image
+    greenres = cv2.bitwise_and(frame,frame, mask= greenmask)
+
+    # TODO: Return and X and Y coordinate for all unique color blobs
+    greenpoints = cv2.findNonZero(greenmask)
+    if greenpoints is not None:
+        greenavg = np.mean(greenpoints, axis=0) # Averaged points to sole coordinate
+        resImage = [600, 600]
+        resScreen = [600, 600]
+
+    redmask = cv2.inRange(hsv, lower_red, upper_red)
+
+    # Bitwise-AND mask and original image
+    redres = cv2.bitwise_and(frame,frame, mask= redmask)
+
+    # TODO: Return and X and Y coordinate for all unique color blobs
+    redpoints = cv2.findNonZero(redmask)
+    if redpoints is not None:
+        redavg = np.mean(redpoints, axis=0) # Averaged points to sole coordinate
+        resImage = [600, 600]
+        resScreen = [600, 600]
 
    # greenmask = cv2.inRange(hsv, lower_green, upper_green)
    # greenres = cv2.bitwise_and(frame,frame, mask= greenmask)
@@ -80,16 +109,22 @@ while(1):
 
     #shitty way to have intermittant printing
     if (count == cLimit):
-        print "blue coordinates: %s , %s" % (bluex, bluey)
+        if (blueavg is not None):
+            print ("blueavg %s" %(blueavg[0],))
+        if (greenavg is not None):
+            print ("greenavg %s" %(greenavg[0],))
+        if (redavg is not None):
+            print ("redavg %s" %(redavg[0],))
+       # print "blue coordinates: %s , %s" % (bluex, bluey)
        # print "green coordinates: %s , %s" % (greenx, greeny)
        # print "red coordinates %s , %s" % (redx, redy)
         count = 0
 
     #cv2.imshow('frame',frame)
     #cv2.imshow('mask',mask)
-    #cv2.imshow('blueres',blueres)
-    #cv2.imshow('greenres',greenres)
-    #cv2.imshow('redres',redres)
+    cv2.imshow('blueres',blueres)
+    cv2.imshow('greenres',greenres)
+    cv2.imshow('redres',redres)
 
     k = cv2.waitKey(5) & 0xFF
     if k == 27:
