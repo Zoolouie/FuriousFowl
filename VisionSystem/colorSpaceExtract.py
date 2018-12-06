@@ -6,7 +6,7 @@ import cv2, numpy as np
 
 cap = cv2.VideoCapture(1)
 count = 1
-cLimit = 50 # Amount of iterations before printing coordinates, smaller number = faster refresh
+cLimit = 100 # Amount of iterations before printing coordinates, smaller number = faster refresh
 
 print("Ctrl + c to exit program")
 while(1):
@@ -40,8 +40,8 @@ while(1):
     bluepoints = cv2.findNonZero(bluemask)
     if bluepoints is not None:
         blueavg = np.mean(bluepoints, axis=0) # Averaged points to sole coordinate
-        resImage = [600, 600]
-        resScreen = [600, 600]
+        #resImage = [600, 600]
+        #resScreen = [600, 600]
         #bluepointsinframe = np.floor((resScreen[0] / resImage[0]) * blueavg[0]), np.floor((resScreen[1] / resImage[1]))
         #bluex = bluepointsinframe[0][0]
         #bluex = float(bluex)
@@ -58,8 +58,8 @@ while(1):
     greenpoints = cv2.findNonZero(greenmask)
     if greenpoints is not None:
         greenavg = np.mean(greenpoints, axis=0) # Averaged points to sole coordinate
-        resImage = [600, 600]
-        resScreen = [600, 600]
+        resImage = [133, 133]
+        resScreen = [133, 133]
 
     redmask = cv2.inRange(hsv, lower_red, upper_red)
 
@@ -70,8 +70,8 @@ while(1):
     redpoints = cv2.findNonZero(redmask)
     if redpoints is not None:
         redavg = np.mean(redpoints, axis=0) # Averaged points to sole coordinate
-        resImage = [600, 600]
-        resScreen = [600, 600]
+        #resImage = [600, 600]
+        #resScreen = [600, 600]
 
    # greenmask = cv2.inRange(hsv, lower_green, upper_green)
    # greenres = cv2.bitwise_and(frame,frame, mask= greenmask)
@@ -109,18 +109,34 @@ while(1):
 
     #shitty way to have intermittant printing
     if (count == cLimit):
+        bx_cm = blueavg[0][0] / 4.51
+        by_cm = 96 - (blueavg[0][1] / 4.68)
         if (blueavg is not None):
-            print ("blueavg %s" %(blueavg[0],))
+            print ("Blue Coordinates: %.2f cm, %.2f cm" %(bx_cm, by_cm))
+
+        gx_cm = greenavg[0][0] / 4.51
+        gy_cm = 96 - (greenavg[0][1] / 4.68)
         if (greenavg is not None):
-            print ("greenavg %s" %(greenavg[0],))
+            print ("Green Coordinates: %.2f cm, %.2f cm" %(gx_cm, gy_cm))
+
+        rx_cm = redavg[0][0] / 4.51
+        ry_cm = 96 - (redavg[0][1] / 4.68)
         if (redavg is not None):
-            print ("redavg %s" %(redavg[0],))
+            print ("Red Coordinates: %.2f cm, %.2f cm" %(rx_cm, ry_cm))
+
+        #printing pixels
+        #if (blueavg is not None):
+        #    print ("blueavg %s" %(blueavg[0],))
+        #if (greenavg is not None):
+        #    print ("greenavg %s" %(greenavg[0],))
+        #if (redavg is not None):
+        #    print ("redavg %s" %(redavg[0],))
        # print "blue coordinates: %s , %s" % (bluex, bluey)
        # print "green coordinates: %s , %s" % (greenx, greeny)
        # print "red coordinates %s , %s" % (redx, redy)
         count = 0
 
-    #cv2.imshow('frame',frame)
+    cv2.imshow('frame',frame)
     #cv2.imshow('mask',mask)
     cv2.imshow('blueres',blueres)
     cv2.imshow('greenres',greenres)
