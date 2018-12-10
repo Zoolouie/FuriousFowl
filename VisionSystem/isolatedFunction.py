@@ -2,26 +2,27 @@
 # CSCI 3302 Robotics Fall 2018
 # Requires opencv and python installed
 import cv2, numpy as np
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(1)
 cLimit = 100 # Amount of iterations before printing coordinates, smaller number = faster refresh
 
 def main():
     coordlist = findCoords()
     print("Printing coordinate list...")
     
-    #prints blue, green, red
+    #prints blue, green, yellow
     for x in coordlist:
         print x[0], x[1]
 
 def findCoords():
     camBool = 0
+    # camera latency calls for use of while loop instead of just capturing one frame
     while camBool < 20:
         # Take each frame
         _, frame = cap.read()
 
         blueavg = None
         greenavg = None
-        redavg = None
+        yellowavg = None
 
         # Convert BGR to HSV
         hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
@@ -30,9 +31,9 @@ def findCoords():
         lower_blue = np.array([100,100,100])
         upper_blue = np.array([130,255,255])
         lower_green = np.array([80,100,100])
-        upper_green = np.array([100,255,255])
-        lower_red = np.array([0,100,100])
-        upper_red = np.array([30,255,255])
+        upper_green = np.array([120,255,255])
+        lower_yellow = np.array([10,100,100])
+        upper_yellow = np.array([35,255,255])
 
         # Blue Mask
         bluemask = cv2.inRange(hsv, lower_blue, upper_blue)
@@ -50,12 +51,12 @@ def findCoords():
             resImage = [133, 133]
             resScreen = [133, 133]
 
-        # Red  Mask
-        redmask = cv2.inRange(hsv, lower_red, upper_red)
-        redres = cv2.bitwise_and(frame,frame, mask= redmask)
-        redpoints = cv2.findNonZero(redmask)
-        if redpoints is not None:
-            redavg = np.mean(redpoints, axis=0)
+        # yellow  Mask
+        yellowmask = cv2.inRange(hsv, lower_yellow, upper_yellow)
+        yellowres = cv2.bitwise_and(frame,frame, mask= yellowmask)
+        yellowpoints = cv2.findNonZero(yellowmask)
+        if yellowpoints is not None:
+            yellowavg = np.mean(yellowpoints, axis=0)
 
         # list of coordinates in centimeters
         coordlist = []
@@ -72,18 +73,11 @@ def findCoords():
             gy_cm = int(96 - (greenavg[0][1] / 4.68))
             coordlist.append((gx_cm, gy_cm))
 
-        # adding red coordinates in centimeters
-        if (redavg is not None):
-            rx_cm = int(redavg[0][0] / 4.51)
-            ry_cm = int(96 - (redavg[0][1] / 4.68))
+        # adding yellow coordinates in centimeters
+        if (yellowavg is not None):
+            rx_cm = int(yellowavg[0][0] / 4.51)
+            ry_cm = int(96 - (yellowavg[0][1] / 4.68))
             coordlist.append((rx_cm, ry_cm))
-
-        #for showing masks and camera feeds:
-        #cv2.imshow('frame',frame)
-        #cv2.imshow('mask',mask)
-        #cv2.imshow('blueres',blueres)
-        #cv2.imshow('greenres',greenres)
-        #cv2.imshow('redres',redres)
 
         camBool += 1
     # After While termination

@@ -4,7 +4,7 @@
 
 import cv2, numpy as np
 
-cap = cv2.VideoCapture(1)
+cap = cv2.VideoCapture(0)
 count = 1
 cLimit = 100 # Amount of iterations before printing coordinates, smaller number = faster refresh
 
@@ -25,9 +25,9 @@ while(1):
     upper_blue = np.array([130,255,255])
 
     lower_green = np.array([80,100,100])
-    upper_green = np.array([100,255,255])
+    upper_green = np.array([120,255,255])
 
-    lower_red = np.array([0,100,100])
+    lower_red = np.array([10,90,90])
     upper_red = np.array([30,255,255])
 
     # Threshold the HSV image to get only blue colors
@@ -40,6 +40,8 @@ while(1):
     bluepoints = cv2.findNonZero(bluemask)
     if bluepoints is not None:
         blueavg = np.mean(bluepoints, axis=0) # Averaged points to sole coordinate
+        resImage = [133, 133]
+        resScreen = [133, 133]
         #resImage = [600, 600]
         #resScreen = [600, 600]
         #bluepointsinframe = np.floor((resScreen[0] / resImage[0]) * blueavg[0]), np.floor((resScreen[1] / resImage[1]))
@@ -61,6 +63,7 @@ while(1):
         resImage = [133, 133]
         resScreen = [133, 133]
 
+    #red
     redmask = cv2.inRange(hsv, lower_red, upper_red)
 
     # Bitwise-AND mask and original image
@@ -70,6 +73,8 @@ while(1):
     redpoints = cv2.findNonZero(redmask)
     if redpoints is not None:
         redavg = np.mean(redpoints, axis=0) # Averaged points to sole coordinate
+        resImage = [133, 133]
+        resScreen = [133, 133]
         #resImage = [600, 600]
         #resScreen = [600, 600]
 
