@@ -67,24 +67,24 @@ def doesXYCollide(x,y,Target):
 
 # In[86]:
 
-Cans=[(850,14)]
-Target=(850,14)
+#Cans=[(850,14)]
+#Target=(850,14)
 
-x,y=calculateTargetXAndY(Cans, Target)
+#x,y=calculateTargetXAndY(Cans, Target)
 
 
 # In[84]:
 
 #Get max velocity, we can change this
-CX=((-0.13+0.21)**2+(0.01+0.03)**2)**0.5
-springk = 0.983/0.04
-mass = 0.007
-print(CX)
+#CX=((-0.13+0.21)**2+(0.01+0.03)**2)**0.5
+#springk = 0.983/0.04
+#mass = 0.007
+#print(CX)
 
 
 # In[27]:
 
-((springk*(CX)**2)/mass)**0.5
+#((springk*(CX)**2)/mass)**0.5
 
 
 # In[ ]:
