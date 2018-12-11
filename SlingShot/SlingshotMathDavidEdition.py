@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[17]:
+# In[85]:
 
 import math
 
@@ -10,38 +10,35 @@ import math
 def calculateTargetXAndY(Cans, Target):
     NotHittable = Cans
     NotHittable.remove(Target)
-    #velocities = [100, 50, 20] #CHANGE THESE VALUES
     gravity = 9.8;
     test=False
-    xl=[]
-    yl=[]
+    velocities = []
+    max_vel = 53 #10*5.3
+    for veliter in range(max_vel,0,-1):
+        velocities.append(veliter/10)
     for theta in range(90):
         #for vel in velocties:
         #This can do a continuous range decreasing from our max velocity
-         for vel in range(10,0,-1):
-            max_time = math.ceil((2 * vel * math.sin(theta)) / gravity)
+         for vel in velocities:
+            max_time = (2 * vel * math.sin(theta)) / gravity
+            max_time = math.ceil(100*max_time)
             time_step = []
-            for timeIter in range(10*max_time):
-                time_step.append(timeIter/10)
+            for timeIter in range(max_time):
+                time_step.append(timeIter/100)
             for t in time_step:
                 test = True
-                x = vel * math.cos(theta) * t
-                y = vel * math.sin(theta) * t - (1/2) * (gravity * (t ** 2))
+                x = vel * math.cos(math.radians(theta)) * t
+                y = vel * math.sin(math.radians(theta)) * t - (1/2) * (gravity * (t ** 2))
                 #Convert x y into cm
                 #Turn it into whole numbers and subtract distance between camera and frame
                 x=round(x*100)-69
                 y=round(y*100)
-                print(x,y)
-                xl.append(x)
-                yl.append(y)
                 if (doesXYIntercept(x,y,NotHittable)):
                     break
                 elif (doesXYCollide(x,y,Target)):
-                    print(vel, theta)
+                    #print(vel, theta)
                     finalx,finaly=calculateBotPosition(vel, theta)
-                    return finalx*100,finaly*100,theta
-            #if test==True:
-                #return xl,yl
+                    return finalx*100,finaly*100
     print('This position cant be hit')
     return False
     
@@ -51,8 +48,8 @@ def calculateBotPosition(vel, theta):
     springk = 0.983/0.04
     mass = 0.007
     changeX = (((vel ** 2) * mass) / springk)**0.5
-    x = changeX * math.cos(theta)
-    y = changeX * math.sin(theta)
+    x = changeX * math.cos(math.radians(theta))
+    y = changeX * math.sin(math.radians(theta))
     return x, y
 
 def doesXYIntercept(x,y,Obsticles):
@@ -68,50 +65,26 @@ def doesXYCollide(x,y,Target):
         return False
 
 
-# In[2]:
-
-Test,Test2=calculateBotPosition(30,20)
-
-
-# In[18]:
-
-print(Test,Test2)
-
-
-# In[19]:
+# In[86]:
 
 Cans=[(850,14)]
 Target=(850,14)
-x,y,theta=calculateTargetXAndY(Cans, Target)
+
+x,y=calculateTargetXAndY(Cans, Target)
 
 
-# In[20]:
+# In[84]:
 
-print(x,y)
-
-
-# In[56]:
-
-TimeShtuff=[]
-for timeIter in range(10*2):
-    TimeShtuff.append(timeIter/10)
+#Get max velocity, we can change this
+CX=((-0.13+0.21)**2+(0.01+0.03)**2)**0.5
+springk = 0.983/0.04
+mass = 0.007
+print(CX)
 
 
-# In[54]:
+# In[27]:
 
-print(TimeShtuff)
-
-
-# In[70]:
-
-round(5.4)
-
-
-# In[5]:
-
-import matplotlib.pyplot as plt
-plt.plot(x, y, 'ro')
-plt.show()
+((springk*(CX)**2)/mass)**0.5
 
 
 # In[ ]:
