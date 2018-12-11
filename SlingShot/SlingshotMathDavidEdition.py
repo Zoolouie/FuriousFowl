@@ -59,10 +59,11 @@ def doesXYIntercept(x,y,Obsticles):
     return False
 
 def doesXYCollide(x,y,Target):
-    if (x,y)==Target:
-        return True
-    else:
-        return False
+    if x < Target[0]+5 and y < Target[1]+5:
+        if x > (Target[0]-5) and y > Target[1]-5:
+            print(x,y,Target[0],Target[1])
+            return True
+    return False
 
 
 # In[86]:
