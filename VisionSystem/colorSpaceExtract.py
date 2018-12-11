@@ -27,8 +27,8 @@ while(1):
     lower_green = np.array([80,100,100])
     upper_green = np.array([120,255,255])
 
-    lower_red = np.array([10,90,90])
-    upper_red = np.array([30,255,255])
+    lower_red = np.array([0,80,100])
+    upper_red = np.array([7,100,100])
 
     # Threshold the HSV image to get only blue colors
     bluemask = cv2.inRange(hsv, lower_blue, upper_blue)
@@ -127,7 +127,7 @@ while(1):
         rx_cm = redavg[0][0] / 4.51
         ry_cm = 96 - (redavg[0][1] / 4.68)
         if (redavg is not None):
-            print ("Red Coordinates: %.2f cm, %.2f cm" %(rx_cm, ry_cm))
+            print ("red Coordinates: %.2f cm, %.2f cm" %(rx_cm, ry_cm))
 
         #printing pixels
         #if (blueavg is not None):
