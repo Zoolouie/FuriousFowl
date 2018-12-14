@@ -38,7 +38,7 @@ def calculateTargetXAndY(Cans, Target):
                 elif (doesXYCollide(x,y,Target)):
                     #print(vel, theta)
                     finalx,finaly=calculateBotPosition(vel, theta)
-                    return finalx*100,finaly*100
+                    return finalx,finaly
     print('This position cant be hit')
     return False
     

@@ -21,7 +21,7 @@ def main():
         print x[0], x[1]
 
 def visionSystem():
-    cap = cv2.VideoCapture(1) # video capture is used instead of snapshot to more accurately average slightly moving objects
+    cap = cv2.VideoCapture(0) # video capture is used instead of snapshot to more accurately average slightly moving objects
     count = 1 #iteration count
     cLimit = 100 # Number of iterations before printing; smaller number = faster printing/refresh
     run = True # Used to terminate program
