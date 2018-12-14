@@ -88,12 +88,12 @@ def prepare_slingshot():
 
 def move_to_initial():
     #open_gripper()
-    position = [-0.11, 0.435, -0.01]
+    position = [-0.11, 0.437, -0.01]
     quaternion = [0.0, 1.0, 0.0, 0.0]
     moveRoboticArm(position, quaternion, 0.05, 0.05)
 
 def move_to_point(position, position2):
-    position = [position, 0.43, position2]
+    position = [position, 0.437, position2]
     quaternion = [0.0, 1.0, 0.0, 0.0]
     moveRoboticArm(position, quaternion, 0.05, 0.05)
     time.sleep(1)
@@ -142,6 +142,7 @@ def calculateTargetXAndY(Cans, Target):
                     break
                 elif (doesXYCollide(x,y,Target)):
                     #print(vel, theta)
+                    #print(x,y)
                     xf,yf=calculateBotPosition(vel, theta)
                     #print(final_position)
                     return xf,yf
@@ -240,16 +241,16 @@ def visionSystem():
             coordList = []
     
             # X and Y pixel to cm conversions for red
-            rx_cm = int(redavg[0][0] / 4.51)
-            ry_cm = int(96 - (redavg[0][1] / 4.68))
-            if (redavg is not None):
-                coordList.append((rx_cm, ry_cm))
+            #rx_cm = int(redavg[0][0] / 4.51)
+            #ry_cm = int(96 - (redavg[0][1] / 4.68))
+            #if (redavg is not None):
+                #coordList.append((rx_cm, ry_cm))
             
             # X and Y pixel to cm conversions for green        
-            gx_cm = int(greenavg[0][0] / 4.51)
-            gy_cm = int(96 - (greenavg[0][1] / 4.68))
-            if (greenavg is not None):
-                coordList.append((gx_cm, gy_cm))
+            #gx_cm = int(greenavg[0][0] / 4.51)
+            #gy_cm = int(96 - (greenavg[0][1] / 4.68))
+            #if (greenavg is not None):
+                #coordList.append((gx_cm, gy_cm))
     
             # X and Y pixel to cm conversions for blue        
             bx_cm = int(blueavg[0][0] / 4.51)
@@ -294,7 +295,6 @@ def main():
     time.sleep(5)
     target_coordinates = visionSystem()
     #print(target_coordinates)
-    target_coordinates=[(120,20)]
     #Cost Function Assuming no cans change ever, TODO replace with cost function
     target = calculate_lowest_point(target_coordinates)
     robot_coords1,robot_coords2 = calculateTargetXAndY(target_coordinates, target)
